@@ -12,24 +12,37 @@ using namespace std;
 void solve(){
     string s,t;cin>>s>>t;
     vector<int> a;
-    vector<int>cs(26),ct(26);
-    for(auto i:s){cs[i-'a']++;}
-    for(auto i:t){ct[i-'a']++;}
-    for(auto i:cs)cout<<i<<' ';
-    nf;
-    for(auto i:ct)cout<<i<<' ';
-    nf;
     int x;
     while(cin>>x)a.push_back(x);
-    for(auto i:a)cout<<i<<' ';
-    int ans=0;
-    string ss="";
-    for(auto i:a){
-        ss+=s[i-1];
+    auto ok =[&](int mi){
+        vector<bool> vis((int)s.size()+1,false);
+        for(int i=0;i<mi;i++){
+            vis[a[i]]=true;
+        }
+        int j=0;
+        for(int i=0;i<(int)s.size();i++){
+            if(t[j]==s[i] && !vis[i+1]){
+                j++;
+            }
+            if(j==(int)t.size()){
+                return true;
+            }
+        }
+        return false;
 
+    };
+    int l=0,r=(int)s.size(),mid,ans=0;
+    while(l<=r){
+        mid=l+(r-l)/2;
+        if(ok(mid)){
+            ans=mid;
+            l=mid+1;
+        }else{
+            r=mid-1;
+        }
     }
-    nf;
-    cout<<ss<<nl;
+    cout<<ans<<nl;
+    
 }
 int32_t main() {
     ios::sync_with_stdio(false);
