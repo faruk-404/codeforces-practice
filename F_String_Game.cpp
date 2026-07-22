@@ -11,27 +11,23 @@ using namespace std;
 
 void solve(){
     string s,t;cin>>s>>t;
-    vector<int> a;
-    int x;
-    while(cin>>x)a.push_back(x);
-    auto ok =[&](int mi){
-        vector<bool> vis((int)s.size()+1,false);
-        for(int i=0;i<mi;i++){
-            vis[a[i]]=true;
-        }
-        int j=0;
-        for(int i=0;i<(int)s.size();i++){
-            if(t[j]==s[i] && !vis[i+1]){
-                j++;
-            }
-            if(j==(int)t.size()){
-                return true;
-            }
-        }
-        return false;
+    int n=s.size();
+    int tt=t.size();
+    vector<int> a(n);
+    for(auto &i:a)cin>>i;
 
+    auto ok=[&](int mid){
+        vector<bool> vis(n+1,true);
+        for(int i=0;i<mid;i++)vis[a[i]]=false;
+        int j=0;
+        for(int i=0;i<n;i++){
+            if(vis[i+1] && s[i]==t[j])j++;
+            if(j==tt)break;
+        }
+        return (j==tt);
     };
-    int l=0,r=(int)s.size(),mid,ans=0;
+
+    int l=0,r=n,mid,ans=0;
     while(l<=r){
         mid=l+(r-l)/2;
         if(ok(mid)){
@@ -42,7 +38,6 @@ void solve(){
         }
     }
     cout<<ans<<nl;
-    
 }
 int32_t main() {
     ios::sync_with_stdio(false);
