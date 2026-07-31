@@ -8,34 +8,42 @@ using namespace std;
 #define cn cout << "NO\n"
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
+const int N = 1e7 + 1;
+
+vector<bool> is(N, true);
+vector<int> cnt(N, 0), pre(N, 0);
+void sieve()
+{
+    for (int i = 2; i < N; i++)
+    {
+        if (!is[i])
+            continue;
+        for (int j = i; j < N; j += i)
+        {
+            is[j] = false;
+            cnt[j]++;
+        }
+    }
+    for (int i = 2; i < N; i++)
+    {
+        pre[i] = cnt[i] + pre[i - 1];
+    }
+}
 
 void solve()
 {
     int n;
     cin >> n;
-    vector<int> a;
-    a.push_back(n);
-    for (int i = 0; i <= __lg(n); i++)
-    {
-        if ((n >> i) & 1)
-        {
-            a.push_back(n - (1LL << i));
-        }
-    }
-    if (a.back() == 0)
-        a.pop_back();
-    sort(all(a));
-    cout << a.size() << nl;
-    for (auto i : a)
-        cout << i << ' ';
-    nf;
+    cout << pre[n] << nl;
 }
 int32_t main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+    sieve();
     int t = 1;
     cin >> t;
+
     while (t--)
     {
         solve();

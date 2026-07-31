@@ -13,22 +13,23 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> a;
-    a.push_back(n);
-    for (int i = 0; i <= __lg(n); i++)
+    vector<int> a(n);
+    for (auto &i : a)
+        cin >> i;
+    vector<int> cnt(50, -1);
+    auto sum = [&](int n)
     {
-        if ((n >> i) & 1)
-        {
-            a.push_back(n - (1LL << i));
-        }
-    }
-    if (a.back() == 0)
-        a.pop_back();
-    sort(all(a));
-    cout << a.size() << nl;
+        return (1LL * (n * (n + 1)) / 2);
+    };
     for (auto i : a)
-        cout << i << ' ';
-    nf;
+        cnt[__lg(i)]++;
+    int ans = 0;
+    for (auto i : cnt)
+    {
+        if (i > 0)
+            ans += sum(i);
+    }
+    cout << ans << nl;
 }
 int32_t main()
 {

@@ -11,24 +11,9 @@ using namespace std;
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> a;
-    a.push_back(n);
-    for (int i = 0; i <= __lg(n); i++)
-    {
-        if ((n >> i) & 1)
-        {
-            a.push_back(n - (1LL << i));
-        }
-    }
-    if (a.back() == 0)
-        a.pop_back();
-    sort(all(a));
-    cout << a.size() << nl;
-    for (auto i : a)
-        cout << i << ' ';
-    nf;
+    int a, b;
+    cin >> a >> b;
+    cout << (a ^ b) << nl;
 }
 int32_t main()
 {

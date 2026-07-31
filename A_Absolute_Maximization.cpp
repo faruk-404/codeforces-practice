@@ -13,22 +13,16 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> a;
-    a.push_back(n);
-    for (int i = 0; i <= __lg(n); i++)
-    {
-        if ((n >> i) & 1)
-        {
-            a.push_back(n - (1LL << i));
-        }
-    }
-    if (a.back() == 0)
-        a.pop_back();
-    sort(all(a));
-    cout << a.size() << nl;
+    vector<int> a(n);
+    for (auto &i : a)
+        cin >> i;
+    int orr = 0, ann = a[0];
     for (auto i : a)
-        cout << i << ' ';
-    nf;
+    {
+        orr |= i;
+        ann &= i;
+    }
+    cout << orr - ann << nl;
 }
 int32_t main()
 {
