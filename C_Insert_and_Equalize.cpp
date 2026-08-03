@@ -16,11 +16,9 @@ void solve()
     vector<int> a(n);
     for (auto &i : a)
         cin >> i;
-
     sort(all(a));
     int mm = a[0];
     int g = 0;
-
     for (int i = 0; i < n; i++)
     {
         g = __gcd(a[i] - mm, g);
@@ -32,7 +30,6 @@ void solve()
         {
             ans += (abs(mx - i)) / g;
         }
-
     int cnt = 1;
     int ok = true;
     for (int i = n - 1; i > 0; i--)
