@@ -8,27 +8,22 @@ using namespace std;
 #define cn cout << "NO\n"
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
-
+vector<int> v(26);
 void solve() {
-    int n, x, y;
-    cin >> n >> x >> y;
-    n--;
-    auto ok = [&](int mid) {
-        int cnt = (mid / x + mid / y);
-        ;
-        return (n <= cnt);
-    };
-    int l = 0, r = 1e12, mid, ans = 0;
-    while (l <= r) {
-        mid = l + (r - l) / 2;
-        if (ok(mid)) {
-            ans = mid;
-            r = mid - 1;
-        } else {
-            l = mid + 1;
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+
+    for (auto i : s)
+        v[i - 'a']++;
+    string ans = "";
+    for (int i = 0; i < 26; i++) {
+        for (int j = 0; j < v[i]; j++) {
+            ans += (char)('a' + i);
         }
     }
-    cout << ans + min(x, y) << nl;
+    cout << ans << '\n';
 }
 int32_t main() {
     ios::sync_with_stdio(false);
