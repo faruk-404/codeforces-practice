@@ -3,42 +3,55 @@ using namespace std;
 
 #define nl '\n'
 #define nf cout << '\n'
-#define int long long
+#define ll long long
 #define cy cout << "YES\n"
 #define cn cout << "NO\n"
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
 
-void solve() {
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    for (auto &i : a)
-        cin >> i;
-    int sum = accumulate(a.begin(), a.begin() + n / 2, 0LL);
-    int summ = (n * (n + 1)) / 2;
-    int summm = ((n / 2) * ((n / 2) + 1)) / 2;
-    summ -= summm;
-    if (sum != summ && sum != summm) {
-        cout << -1 << nl;
-        return;
+int solve(vector<int> &p, int l, int r) {
+    if (l == r)
+        return 0;
+
+    int mid = l + (r - l) / 2;
+    int left = solve(p, l, mid);
+    int right = solve(p, mid + 1, r);
+
+    if (left == -1 || right == -1) {
+        return -1;
     }
-    int ans = 0;
-    for (int j = 2; j <= n; j *= 2) {
-        for (int i = 0; i < n; i += j) {
-            if (a[i] > a[i + j - 1])
-                ans++;
+
+    int left_min = *min_element(p.begin() + l, p.begin() + mid + 1);
+    int left_max = *max_element(p.begin() + l, p.begin() + mid + 1);
+
+    int right_min = *min_element(p.begin() + mid + 1, p.begin() + r + 1);
+    int right_max = *max_element(p.begin() + mid + 1, p.begin() + r + 1);
+
+    if (left_max < right_min) {
+        return left + right;
+    }
+    if (right_max < left_min) {
+        for (int i = l; i <= mid; i++) {
+            swap(p[i], p[i + (mid - l + 1)]);
         }
+        return left + right + 1;
     }
-    cout << ans << nl;
+    return -1;
 }
-int32_t main() {
+int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    int t = 1;
+    int t;
     cin >> t;
     while (t--) {
-        solve();
+        int m;
+        cin >> m;
+        vector<int> p(m);
+        for (auto &i : p)
+            cin >> i;
+
+        int op = solve(p, 0, m - 1);
+        cout << op << endl;
     }
     return 0;
 }
