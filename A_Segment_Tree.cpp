@@ -69,54 +69,55 @@ using namespace std;
 #define cn cout << "NO\n"
 #define all(v) v.begin(),v.end()
 #define rall(v) v.rbegin(),v.rend()
-const int N=2e5+5;
-vector<int> a(N),seg(N*4);
-
-void build(int node,int l,int r){
+const int  N=2e5+5;
+vector<int> a(N);
+vector<int> seg(4*N);
+void build(int n,int l,int r){
     if(l==r){
-        seg[node]=a[l];
+        seg[n]=a[l];
         return;
     }
     int mid=l+(r-l)/2;
-    build(2*node,l,mid);
-    build(2*node+1,mid+1,r);
-    seg[node]=seg[node*2]+seg[node*2+1];
+    build(2*n,l,mid);
+    build((2*n)+1,mid+1,r);
+    seg[n]=seg[2*n]+seg[2*n+1];
 }
-
-void update(int node,int l,int r,int idx,int val){
+void update(int n,int l,int r,int idx,int val){
     if(l==r){
-        seg[node]=val;
+        seg[n]=val;
         return;
     }
     int mid=l+(r-l)/2;
-    if(idx>=l && mid>=idx)update(node*2,l,mid,idx,val);
-    else update(node*2+1,mid+1,r,idx,val);
-    seg[node]=seg[node*2]+seg[node*2+1];
+    if(l<=idx && mid>=idx) update(2*n,l,mid,idx,val);
+    else if(mid<idx && r>=idx)update(2*n+1,mid+1,r,idx,val);
+    else return;
+    seg[n]=seg[2*n]+seg[2*n+1];
 }
 
-int qurey(int node,int l,int r,int ll,int rr){
-    if(l>=ll && r<=rr)return seg[node];
-    if(l>rr  || r<ll)return 0LL;
+int qurey(int n,int l,int r,int ll,int rr){
+    if(l>=ll && r<=rr)return seg[n];
+    if((r<ll  || l>rr))return 0LL;
+    
     int mid=l+(r-l)/2;
-    int left=qurey(node*2,l,mid,ll,rr);
-    int right=qurey(node*2+1,mid+1,r,ll,rr);
+    int left=qurey(2*n,l,mid,ll,rr);
+    int right=qurey(2*n+1,mid+1,r,ll,rr);
     return left+right;
+    
 }
-void solve(){
-    int n,q;cin>>n>>q;
-    for(int i=1;i<=n;i++) cin>>a[i];
-    build(1,1,n);
-    while(q--){
-        int x;cin>>x;
-        if(x==1){
-            int idx,val;cin>>idx>>val;
-            update(1,1,n,idx+1,val);
-        }else {
-            int l,r;cin>>l>>r;
-            cout<<qurey(1,1,n,l+1,r)<<nl;
-        }
-    }
 
+
+void solve(){
+    int n;cin>>n;
+    for(int i=1;i<=n;i++)cin>>a[i];
+    build(1,1,8);
+    for(int i=1;i<=n;i++)cout<<a[i]<<' ';
+    cout<<'\n';
+    for(int i=1;i<2*n;i++)cout<<seg[i]<<' ';
+    cout<<'\n';
+    // update(1,1,8,3,10);
+    // for(int i=1;i<=2*n;i++)cout<<seg[i]<<' ';
+    cout<<'\n';
+    cout<<qurey(1,1,n,1,7)<<nl;
 }
 int32_t main() {
     ios::sync_with_stdio(false);
