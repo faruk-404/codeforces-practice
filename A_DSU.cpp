@@ -8,6 +8,7 @@ using namespace std;
 #define cn cout << "NO\n"
 #define all(v) v.begin(),v.end()
 #define rall(v) v.rbegin(),v.rend()
+
 struct dsu{
     vector<int> par,rnk,siz;
     int c;

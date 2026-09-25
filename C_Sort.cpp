@@ -14,7 +14,7 @@ void solve(){
    string s,t;cin>>s>>t;
    while(q--){
     int l,r;cin>>l>>r;
-    vector<char> st(26);
+    multiset<char> st;
     for(int i=l-1;i<r;i++){
         st.insert(s[i]);
         
@@ -23,7 +23,7 @@ void solve(){
         auto it=st.find(t[i]);
         if(it!=st.end())st.erase(it);
     }
-
+    for(auto i:st)cout<<i;nf;
     cout<<st.size()<<nl;
    }
    
