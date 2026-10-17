@@ -2,54 +2,50 @@
 using namespace std;
 
 #define nl '\n'
-#define nf cout << '\n'
 #define int long long
-#define cy cout << "YES\n"
-#define cn cout << "NO\n"
-#define all(v) v.begin(), v.end()
-#define rall(v) v.rbegin(), v.rend()
 
 void solve() {
     int n, k;
     cin >> n >> k;
     vector<int> a(n);
-    for (auto &i : a)
-        cin >> i;
+    for (auto &i : a) cin >> i;
 
-    auto ok = [&](int mid) {
-        int cnt = 0;
-        set<int> st;
-        for (int i = 0; i < n; i++) {
-            if (a[i] < mid)
-                st.insert(a[i]);
-            if (st.size() == mid) {
-                cnt++;
-                st.clear();
+    vector<int> stamp(n + 2, 0);   // কোন "অংশে" শেষবার দেখা হয়েছে
+    int curStamp = 0;
+
+    auto ok = [&](int mid) -> bool {
+        if (mid == 0) return true;          // MEX ≥ 0 সবসময় সত্য
+        if (mid > n) return false;
+        int cnt = 0, have = 0;
+        curStamp++;
+        for (int x : a) {
+            if (x < mid && stamp[x] != curStamp) {
+                stamp[x] = curStamp;
+                have++;
+                if (have == mid) {          // এই অংশে 0..mid-1 সব আছে
+                    cnt++;
+                    if (cnt >= k) return true;
+                    curStamp++;             // O(1) রিসেট
+                    have = 0;
+                }
             }
-            if (cnt >= k)
-                break;
         }
-        return (cnt >= k);
+        return false;
     };
-    int l = 0, r = n + 1, mid, ans = 0;
+
+    int l = 0, r = n, ans = 0;
     while (l <= r) {
-        mid = l + (r - l) / 2;
-        if (ok(mid)) {
-            ans = mid;
-            l = mid + 1;
-        } else {
-            r = mid - 1;
-        }
+        int mid = l + (r - l) / 2;
+        if (ok(mid)) { ans = mid; l = mid + 1; }
+        else r = mid - 1;
     }
     cout << ans << nl;
 }
+
 int32_t main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     int t = 1;
     cin >> t;
-    while (t--) {
-        solve();
-    }
-    return 0;
+    while (t--) solve();
 }
