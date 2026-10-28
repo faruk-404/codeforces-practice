@@ -1,42 +1,42 @@
-
 #include <bits/stdc++.h>
 using namespace std;
+#ifdef LOCAL
+#include "debug.h"
+#else
+#define dbg(...)
+#define dbg_arr(...)
+#define dbg_range(...)
+#define dbg_grid(...)
+#define dbg_time(...)
+#endif
 
 #define nl '\n'
 #define nf cout << '\n'
-#define int long long
+#define ll long long
 #define cy cout << "YES\n"
 #define cn cout << "NO\n"
 #define all(v) v.begin(), v.end()
-#define rall(v) v.rbegin(), v.rend()
+const int N = 3e5 + 5;
 
 void solve() {
-    string t, p;
-    cin >> t >> p;
-    int n = t.size();
-    int m = p.size();
-    vector<int> a(n);
-    for (auto &i : a) {
-        cin >> i;
-    }
+    string s, t;
+    cin >> s >> t;
+    vector<int> a(s.size());
+    for (auto& i : a) cin >> i;
     auto ok = [&](int mid) {
-        vector<bool> is(n + 1, true);
+        string c = s;
         for (int i = 0; i < mid; i++) {
-            is[a[i] - 1] = false;
+            c[a[i] - 1] = '#';
         }
-        int j = 0;
-        for (int i = 0; i < n; i++) {
-            if (is[i] && t[i] == p[j]) {
-                j++;
-                if (j >= m) {
-                    break;
-                }
-            }
+        int o = true;
+        int cnt = 0;
+        for (int i = 0; i < s.size(); i++) {
+            if (cnt < t.size() && c[i] == t[cnt]) cnt++;
         }
-        return (j >= m);
+        return (cnt == t.size());
+        return true;
     };
-
-    int l = 0, r = n, mid, ans = 0;
+    int l = 0, r = s.size(), mid, ans = 0;
     while (l <= r) {
         mid = l + (r - l) / 2;
         if (ok(mid)) {
@@ -46,64 +46,121 @@ void solve() {
             r = mid - 1;
         }
     }
-    cout << ans << '\n';
+    cout << ans << nl;
 }
-int32_t main() {
+int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    int t = 1;
-    // cin >> t;
-    while (t--) {
-        solve();
-    }
+    ll t = 1;
+    // cin>>t;
+    while (t--) solve();
     return 0;
 }
 // #include <bits/stdc++.h>
 // using namespace std;
 
 // #define nl '\n'
-// #define nf cout<<'\n'
+// #define nf cout << '\n'
 // #define int long long
 // #define cy cout << "YES\n"
 // #define cn cout << "NO\n"
-// #define all(v) v.begin(),v.end()
-// #define rall(v) v.rbegin(),v.rend()
+// #define all(v) v.begin(), v.end()
+// #define rall(v) v.rbegin(), v.rend()
 
-// void solve(){
-//     string s,t;cin>>s>>t;
-//     int n=s.size();
-//     int tt=t.size();
+// void solve() {
+//     string t, p;
+//     cin >> t >> p;
+//     int n = t.size();
+//     int m = p.size();
 //     vector<int> a(n);
-//     for(auto &i:a)cin>>i;
-
-//     auto ok=[&](int mid){
-//         vector<bool> vis(n+1,true);
-//         for(int i=0;i<mid;i++)vis[a[i]]=false;
-//         int j=0;
-//         for(int i=0;i<n;i++){
-//             if(vis[i+1] && s[i]==t[j])j++;
-//             if(j==tt)break;
+//     for (auto &i : a) {
+//         cin >> i;
+//     }
+//     auto ok = [&](int mid) {
+//         vector<bool> is(n + 1, true);
+//         for (int i = 0; i < mid; i++) {
+//             is[a[i] - 1] = false;
 //         }
-//         return (j==tt);
+//         int j = 0;
+//         for (int i = 0; i < n; i++) {
+//             if (is[i] && t[i] == p[j]) {
+//                 j++;
+//                 if (j >= m) {
+//                     break;
+//                 }
+//             }
+//         }
+//         return (j >= m);
 //     };
 
-//     int l=0,r=n,mid,ans=0;
-//     while(l<=r){
-//         mid=l+(r-l)/2;
-//         if(ok(mid)){
-//             ans=mid;
-//             l=mid+1;
-//         }else{
-//             r=mid-1;
+//     int l = 0, r = n, mid, ans = 0;
+//     while (l <= r) {
+//         mid = l + (r - l) / 2;
+//         if (ok(mid)) {
+//             ans = mid;
+//             l = mid + 1;
+//         } else {
+//             r = mid - 1;
 //         }
 //     }
-//     cout<<ans<<nl;
+//     cout << ans << '\n';
 // }
 // int32_t main() {
 //     ios::sync_with_stdio(false);
 //     cin.tie(nullptr);
-//     int t=1;
-//     // cin>>t;
-//     while(t--){solve();}
+//     int t = 1;
+//     // cin >> t;
+//     while (t--) {
+//         solve();
+//     }
 //     return 0;
 // }
+// // #include <bits/stdc++.h>
+// // using namespace std;
+
+// // #define nl '\n'
+// // #define nf cout<<'\n'
+// // #define int long long
+// // #define cy cout << "YES\n"
+// // #define cn cout << "NO\n"
+// // #define all(v) v.begin(),v.end()
+// // #define rall(v) v.rbegin(),v.rend()
+
+// // void solve(){
+// //     string s,t;cin>>s>>t;
+// //     int n=s.size();
+// //     int tt=t.size();
+// //     vector<int> a(n);
+// //     for(auto &i:a)cin>>i;
+
+// //     auto ok=[&](int mid){
+// //         vector<bool> vis(n+1,true);
+// //         for(int i=0;i<mid;i++)vis[a[i]]=false;
+// //         int j=0;
+// //         for(int i=0;i<n;i++){
+// //             if(vis[i+1] && s[i]==t[j])j++;
+// //             if(j==tt)break;
+// //         }
+// //         return (j==tt);
+// //     };
+
+// //     int l=0,r=n,mid,ans=0;
+// //     while(l<=r){
+// //         mid=l+(r-l)/2;
+// //         if(ok(mid)){
+// //             ans=mid;
+// //             l=mid+1;
+// //         }else{
+// //             r=mid-1;
+// //         }
+// //     }
+// //     cout<<ans<<nl;
+// // }
+// // int32_t main() {
+// //     ios::sync_with_stdio(false);
+// //     cin.tie(nullptr);
+// //     int t=1;
+// //     // cin>>t;
+// //     while(t--){solve();}
+// //     return 0;
+// // }
